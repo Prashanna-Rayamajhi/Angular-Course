@@ -11,9 +11,9 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'RecipeApplication';
 
-  loadedComponent: string = 'Recipe';
+ // loadedComponent: string = 'Recipe';
 
-  OnNavigate(feature: string){
-    this.loadedComponent = feature;
-  }
+  // OnNavigate(feature: string){
+  //   this.loadedComponent = feature;
+  // }
 }

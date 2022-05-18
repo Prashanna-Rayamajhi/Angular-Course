@@ -1,6 +1,6 @@
 li a{
     cursor: pointer;
 }
-li a:hover{
+.dropdown-menu li a:hover{
     background-color: #f4f4f4;
 }
