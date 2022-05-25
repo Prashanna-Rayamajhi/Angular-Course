@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { from } from 'rxjs';
 import { RecipeService } from 'src/app/shared/Services/recipe.service';
+import { Recipe } from '../recipe.model';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -15,7 +15,7 @@ export class RecipeEditComponent implements OnInit {
   editMode: boolean = false;
   recipeEditForm !: FormGroup;
 
-  constructor(private route: ActivatedRoute, private recipeServie: RecipeService) { }
+  constructor(private route: ActivatedRoute, private recipeServie: RecipeService, private router: Router) { }
 
   get controls() { // a getter!
     return (<FormArray>this.recipeEditForm.get('ingredients')).controls;
@@ -50,8 +50,8 @@ export class RecipeEditComponent implements OnInit {
         for(let ingredient of recipeToEdit['ingredients']){
           recipeIngredients.push(
             new FormGroup({
-              'ingredientName': new FormControl(ingredient.name),
-              'ingredientAmount': new FormControl(ingredient.amount)
+              'ingredientName': new FormControl(ingredient.name, Validators.required),
+              'ingredientAmount': new FormControl(ingredient.amount, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
             })
           )
         }
@@ -59,14 +59,44 @@ export class RecipeEditComponent implements OnInit {
     }
 
     this.recipeEditForm = new FormGroup({
-      'name': new FormControl(recipeName),
-      'imagePath': new FormControl(recipeImageURL),
-      'description': new FormControl(recipeDescription),
+      'name': new FormControl(recipeName, Validators.required),
+      'imagePath': new FormControl(recipeImageURL, Validators.required),
+      'description': new FormControl(recipeDescription, Validators.required),
       'ingredients': recipeIngredients,
     });
   }
 
   onSumbit(){
-    console.log(this.recipeEditForm);
+    const newRecipe = new Recipe(this.recipeEditForm.value['name'], 
+    this.recipeEditForm.value['description'], 
+    this.recipeEditForm.value['imagePath'], 
+    this.recipeEditForm.value['ingredients']);
+
+    if(this.editMode){
+      this.recipeServie.updateRecipe(this.id, newRecipe);
+    }
+    else{
+      this.recipeServie.addNewRecipe(newRecipe);
+    }
+    this.btnCancelClicked();
+  }
+
+  //adding the ingredients
+  onAddIngredient(){
+    (<FormArray>this.recipeEditForm.get('ingredients')).push(
+      new FormGroup({
+        'ingredientName': new FormControl(null, Validators.required),
+        'ingredientAmount': new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
+      })
+    )
+  }
+
+  //canceling and navigating away
+  btnCancelClicked(){
+    this.router.navigate(['../'], {relativeTo: this.route})
+  }
+
+  onDeleteIngredient(index: number){
+    (<FormArray>this.recipeEditForm.get('ingredients')).removeAt(index);
   }
 }

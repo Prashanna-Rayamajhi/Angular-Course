@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 import { Recipe } from "src/app/recipe/recipe.model";
 import { Ingredient } from "../ingredient.model";
 import { ShoppingListService } from "./shopping-list.service";
@@ -19,6 +20,9 @@ export class RecipeService{
     /**
      *
      */
+    //creating the observable that emits event for change in recipe array
+    public recipeCollectionUpdated = new Subject<Recipe[]>();
+
     constructor(private slService: ShoppingListService) {}
 
       //this method helps in providing new refrence to recipes array rather than the reference to recipes itself
@@ -31,6 +35,25 @@ export class RecipeService{
     }
     addIngredientsToShoppingList(ingredients: Ingredient[]){
         this.slService.addIngredients(ingredients);
+    }
+    ///<summary>
+    ///the below mentioned CRUD functionality imagines index number recived as id and not the index of the array
+    ///the id percieved to be greater by 1 from their index number in array
+    ///</summary>
+    //methods for adding the recipe:
+    addNewRecipe(recipe: Recipe){
+      this.recipes.push(recipe);
+      this.recipeCollectionUpdated.next(this.recipes.slice());
+    }
+    //method for updating the recipe
+    updateRecipe(index: number, updatedRecipe: Recipe){
+      this.recipes[index -1] = updatedRecipe;
+      this.recipeCollectionUpdated.next(this.recipes.slice());
+    };
+    //method for delete the recipe
+    deleteRecipe(index: number){
+      this.recipes.splice(index-1, 1);
+      this.recipeCollectionUpdated.next(this.recipes.slice());
     }
 
 }
