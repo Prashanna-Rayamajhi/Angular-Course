@@ -3,8 +3,9 @@
         <form [formGroup]="recipeEditForm" (ngSubmit)="onSumbit()">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 xol-md-12">
-                    <button type="submit" class="btn btn-success mr-1" *ngIf="!recipeEditForm.valid">Save</button>
+                    <button type="submit" class="btn btn-success mr-1">Save</button>
                     <button type="button" class="btn btn-danger ml-1" (click)="btnCancelClicked()">Cancel</button>
+                    
                 </div>
             </div>
             <div class="row">

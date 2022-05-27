@@ -13,8 +13,8 @@
             <li class="dropdown" appDropdown>
                 <a class="btn btn-dark dropdown-toggle" role="button" data-toggle="dropdown" id="ddMenuLink" >Manage <span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="ddMenuLink">
-                    <li><a>Save Data</a></li>
-                    <li><a>Fetch Data Data</a></li>
+                    <li><a (click)="onSaveData()">Save Data</a></li>
+                    <li><a (click)="onFetchData()">Fetch Data Data</a></li>
                 </ul>
             </li>
         </ul>

@@ -93,7 +93,7 @@ export class RecipeEditComponent implements OnInit {
 
   //canceling and navigating away
   btnCancelClicked(){
-    this.router.navigate(['../'], {relativeTo: this.route})
+    this.router.navigate(['../'])
   }
 
   onDeleteIngredient(index: number){
