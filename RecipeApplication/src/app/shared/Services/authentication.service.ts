@@ -25,6 +25,7 @@ export class AuthenticationService{
     private readonly authSignInApi: string = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAnG-oQhw4VSuY5Nv2521RZOSYPe8ldIzA';
 
     user = new BehaviorSubject<User | any>(null);
+    tokenExpirationTimer!: any
 
     constructor(private http: HttpClient, private route: Router){}
 
@@ -58,7 +59,37 @@ export class AuthenticationService{
 
     Logout(){
         this.user.next(null);
-        this.route.navigate(['./authenticate'])
+        this.route.navigate(['./authentication']);
+        localStorage.removeItem('userData');
+        if(this.tokenExpirationTimer){
+            clearTimeout(this.tokenExpirationTimer);
+        }
+        this.tokenExpirationTimer = null;
+    }
+    AutoLogout(expirationTimer: number){
+        this.tokenExpirationTimer = setTimeout(()=> {
+            this.Logout();
+        }, expirationTimer)
+    }
+
+    AutoLogin(){
+        const userData: {
+            email: string,
+            id: string,
+            _token: string,
+            _tokenExpirationDate: string
+        } | null = localStorage.getItem('userData')? JSON.parse(localStorage.getItem('userData')?? ''): null;
+
+        if(!userData){
+            return;
+        }
+        const loadedUser = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpirationDate));
+
+        const expirationTime = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime()
+        this.AutoLogout(expirationTime);
+        if(loadedUser.token != ''){
+            this.user.next(loadedUser);
+        }
     }
 
     //method for handling the authentication
@@ -68,7 +99,9 @@ export class AuthenticationService{
         const user = new User(email, localId, token, expirationDate);
         //emitting the created user using subject
         this.user.next(user);
-
+        this.AutoLogout(expiresIn * 1000);
+        //sptring data into the local storage
+        localStorage.setItem('userData', JSON.stringify(user));
     }
 
 

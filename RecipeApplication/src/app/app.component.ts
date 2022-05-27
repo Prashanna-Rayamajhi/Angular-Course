@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from './shared/Services/authentication.service';
 
 
 
@@ -8,12 +9,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
  
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'RecipeApplication';
 
+  constructor(private authService: AuthenticationService){}
  // loadedComponent: string = 'Recipe';
 
   // OnNavigate(feature: string){
   //   this.loadedComponent = feature;
   // }
+
+  ngOnInit(): void {
+    this.authService.AutoLogin();
+  }
 }

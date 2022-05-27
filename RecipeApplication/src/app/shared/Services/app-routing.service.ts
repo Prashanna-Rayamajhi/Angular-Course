@@ -9,11 +9,13 @@ import { RecipeStartComponent } from "src/app/recipe/recipe-start/recipe-start.c
 import { RecipeComponent } from "src/app/recipe/recipe.component";
 import { RecipesDetailComponent } from "src/app/recipe/recipes-detail/recipes-detail.component";
 import { ShoppingListComponent } from "src/app/shopping-list/shopping-list.component";
+import { AuthGaurd } from "./auth.gaurd";
 import { RecipeResolverService } from "./recipe-resolver.service";
 
 const appRoutes : Routes = [
     {path: '', redirectTo : '/recipes', pathMatch : 'full'},
-    {path : 'recipes', component: RecipeComponent, children: [
+    {path : 'recipes', component: RecipeComponent, canActivate: [AuthGaurd], 
+        children: [
         {path: '', component: RecipeStartComponent},
         {path: 'Add', component: RecipeEditComponent},
         {path: 'Edit/:id', component: RecipeEditComponent, resolve: [RecipeResolverService]},
