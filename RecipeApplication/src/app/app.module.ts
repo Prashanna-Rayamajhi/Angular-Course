@@ -14,10 +14,13 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
 import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
 
 import { DropdownDirective } from './shared/Directives/dropdown.directive';
 import { ShoppingListService } from './shared/Services/shopping-list.service';
 import { RecipeService } from './shared/Services/recipe.service';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading.spinner';
+
 
 
 
@@ -33,7 +36,9 @@ import { RecipeService } from './shared/Services/recipe.service';
     ShoppingEditComponent,
     DropdownDirective,
     RecipeStartComponent,
-    RecipeEditComponent
+    RecipeEditComponent,
+    LoadingSpinnerComponent,
+    AuthenticationComponent
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@
 
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AuthenticationComponent } from "src/app/authentication/authentication.component";
 import { RecipeEditComponent } from "src/app/recipe/recipe-edit/recipe-edit.component";
 import { RecipeStartComponent } from "src/app/recipe/recipe-start/recipe-start.component";
 
@@ -18,7 +19,8 @@ const appRoutes : Routes = [
         {path: 'Edit/:id', component: RecipeEditComponent, resolve: [RecipeResolverService]},
         {path: ':id', component: RecipesDetailComponent, resolve: [RecipeResolverService]}
     ]},
-    {path: 'shopping-list', component: ShoppingListComponent}
+    {path: 'shopping-list', component: ShoppingListComponent},
+    {path: 'authentication', component: AuthenticationComponent}
 ]
 
 @NgModule({
