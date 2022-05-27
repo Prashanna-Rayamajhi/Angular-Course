@@ -17,7 +17,8 @@
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary m-1" [disabled]="!authForm.valid">{{ isLoginMode ? 'Log in': 'Sign Up'}}</button> 
-                <button class="btn btn-secondary m-1" (click)="onSwitchMode()">Switch to {{ isLoginMode ? 'Sign Up': 'log in'}} page</button>
+
+                <button type="button" class="btn btn-secondary m-1" (click)="onSwitchMode()">Switch to {{ isLoginMode ? 'Sign Up': 'log in'}} page</button>
             </div>
 
             

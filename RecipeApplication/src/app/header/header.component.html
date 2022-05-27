@@ -10,24 +10,27 @@
                 <!-- <a href="#" class="nav-item nav-link" (click)="OnSelect('Recipe')">Recipe</a>
                 <a href="#" class="nav-item nav-link" (click)="OnSelect('ShoppingList')" >Shopping List</a> -->
 
-                <li routerLinkActive="active" class="nav-item">
+                <li routerLinkActive="active" class="nav-item" *ngIf="isAuthenticated">
                     <a routerLink="/recipes" class="nav-link" >Recipe</a>
                 </li>
                 <li routerLinkActive="active" class="nav-item">
                     <a routerLink="/shopping-list" class="nav-link">Shopping List</a>
                 </li>
                 <li routerLinkActive="active" class="nav-item">
-                    <a routerLink="/authentication" class="nav-link">Authentication</a>
+                    <a routerLink="/authentication" class="nav-link" *ngIf="!isAuthenticated">Authentication</a>
                 </li>
                 
                 </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" appDropdown>
+                <li class="dropdown" appDropdown *ngIf="isAuthenticated">
                     <a class="btn btn-dark dropdown-toggle" role="button" data-toggle="dropdown" id="ddMenuLink" >Manage <span class="caret"></span></a>
                     <ul class="dropdown-menu" aria-labelledby="ddMenuLink">
                         <li class="nav-item"><a (click)="onSaveData()">Save Data</a></li>
-                        <li class="nav-item"><a (click)="onFetchData()">Fetch Data Data</a></li>
+                        <li class="nav-item"><a (click)="onFetchData()">Fetch Data</a></li>
                     </ul>
+                </li>
+                <li class="nav-item active" *ngIf="isAuthenticated">
+                    <a class="nav-link" (click)="onLogout()">Log-out</a>
                 </li>
             </ul>
         </div>
