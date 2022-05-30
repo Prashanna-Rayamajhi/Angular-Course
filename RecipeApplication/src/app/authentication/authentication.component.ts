@@ -54,4 +54,9 @@ export class AuthenticationComponent{
         //resetting the form
         authForm.reset();
     }
+
+    //handling the error handling event
+    OnErrorHandeled(){
+        this.error = undefined;
+    }
 }

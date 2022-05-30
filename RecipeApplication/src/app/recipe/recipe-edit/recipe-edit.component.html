@@ -1,6 +1,6 @@
 <div class="row ml-2">
     <div class="col-xs-12 col-sm-12 col-md-12">
-        <form [formGroup]="recipeEditForm" (ngSubmit)="onSumbit()">
+        <form formGroup="recipeEditForm" (ngSubmit)="onSumbit()">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 xol-md-12">
                     <button type="submit" class="btn btn-success mr-1">Save</button>
@@ -34,7 +34,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-12 col-sm-12" formArrayName="ingredients">
-                    <div class="row" *ngFor="let ingredeintCtrl of controls; let i = index" [formGroupName]="i">
+                    <div class="row" *ngFor="let ingredeintCtrl of controls; let i = index" formGroupName="i">
                         <div class="col-xs-7 col-md-7 col-sm-7">
                             <div class="form-group">
                                 <input type="text" class="form-control" formControlName="ingredientName">

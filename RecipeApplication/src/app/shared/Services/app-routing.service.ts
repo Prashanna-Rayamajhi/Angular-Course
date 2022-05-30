@@ -1,32 +1,18 @@
 ///this is the service file is for routing
+//tbh this is not a service file rather it is a route module
 
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { AuthenticationComponent } from "src/app/authentication/authentication.component";
-import { RecipeEditComponent } from "src/app/recipe/recipe-edit/recipe-edit.component";
-import { RecipeStartComponent } from "src/app/recipe/recipe-start/recipe-start.component";
+import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
 
-import { RecipeComponent } from "src/app/recipe/recipe.component";
-import { RecipesDetailComponent } from "src/app/recipe/recipes-detail/recipes-detail.component";
-import { ShoppingListComponent } from "src/app/shopping-list/shopping-list.component";
-import { AuthGaurd } from "./auth.gaurd";
-import { RecipeResolverService } from "./recipe-resolver.service";
 
 const appRoutes : Routes = [
     {path: '', redirectTo : '/recipes', pathMatch : 'full'},
-    {path : 'recipes', component: RecipeComponent, canActivate: [AuthGaurd], 
-        children: [
-        {path: '', component: RecipeStartComponent},
-        {path: 'Add', component: RecipeEditComponent},
-        {path: 'Edit/:id', component: RecipeEditComponent, resolve: [RecipeResolverService]},
-        {path: ':id', component: RecipesDetailComponent, resolve: [RecipeResolverService]}
-    ]},
-    {path: 'shopping-list', component: ShoppingListComponent},
-    {path: 'authentication', component: AuthenticationComponent}
+    {path: 'recipes', loadChildren: ()=>{return import('./../../Modules/recipe.module').then(m => m.RecipeModule);}},
+    {path: 'authentication', loadChildren: ()=>{return import('./../../Modules/authentication.module').then(m => m.AuthenticationModule);}}
 ]
 
 @NgModule({
-    imports: [RouterModule.forRoot(appRoutes)],
+    imports: [RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules})],
     exports: [RouterModule]
 })
 export class AppRouteModule {
